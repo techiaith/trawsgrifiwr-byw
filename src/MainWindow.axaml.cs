@@ -55,11 +55,11 @@ public partial class MainWindow : Window
             string modelPath = Path.Combine(modelsDir, "vosk-model-cy");
 
             //Console.WriteLine($"Looking for model at: {modelPath}");
-            UpdateStatus("Initializing - checking for Welsh model...", Brushes.Orange);
+            UpdateStatus("Yn paratoi... - Initializing...", Brushes.Orange);
 
             if (!Directory.Exists(modelPath))
             {
-                UpdateStatus("Welsh model not found - Downloading from Hugging Face (this may take several minutes)...", Brushes.Orange);
+                UpdateStatus("Yn lawrlwytho model iaith Gymraeg... - Downloading Welsh language model...", Brushes.Orange);
                 //Console.WriteLine("Model not found, starting download...");
 
                 // Download and extract model
@@ -85,7 +85,7 @@ public partial class MainWindow : Window
             _model = new Model(modelPath);
 
             //Console.WriteLine("Model loaded successfully!");
-            UpdateStatus("Model loaded successfully - Ready to record / Model wedi'i lwytho - Barod i recordio", Brushes.Green);
+            UpdateStatus("Barod i recordio - Ready to record", Brushes.Green);
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -129,7 +129,7 @@ public partial class MainWindow : Window
             //Console.WriteLine($"Will download to: {tarGzPath}");
 
             // Download the model
-            UpdateStatus("Downloading Welsh model (this may take a few minutes)...", Brushes.Orange);
+            UpdateStatus("Yn lawrlwytho... - Downloading...", Brushes.Orange);
 
             using (var httpClient = new HttpClient())
             {
@@ -345,7 +345,7 @@ public partial class MainWindow : Window
                     StartButton.IsEnabled = false;
                 if (StopButton != null)
                     StopButton.IsEnabled = true;
-                UpdateStatus("Recording... Speak in Welsh / Yn recordio... Siaradwch yn Gymraeg", Brushes.Red);
+                UpdateStatus("Yn recordio... Siaradwch yn Gymraeg - Recording... Speak in Welsh", Brushes.Red);
             });
         }
         catch (Exception ex)
@@ -410,7 +410,7 @@ public partial class MainWindow : Window
             if (LiveInputText != null)
                 LiveInputText.Text = "Partial transcription will appear here... / Bydd trawsgrifiad rhannol yn ymddangos yma...";
 
-            UpdateStatus("Recording stopped - Ready to record again / Recordio wedi stopio - Barod i recordio eto", Brushes.Orange);
+            UpdateStatus("Recordio wedi stopio - Barod i recordio eto / Recording stopped - Ready to record again", Brushes.Orange);
         });
     }
 
