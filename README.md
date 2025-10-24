@@ -24,8 +24,8 @@ See **[USER_README.md](USER_README.md)** for download links and installation ins
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vosk-windows.git
-cd vosk-windows
+git clone https://github.com/techiaith/trawsgrifiwr-byw.git
+cd trawsgrifiwr-byw
 
 # Build and run from source
 cd src
@@ -72,7 +72,7 @@ vosk-windows/
 - [Avalonia UI](https://avaloniaui.net/) - Cross-platform XAML UI
 - [Vosk](https://alphacephei.com/vosk/) - Offline speech recognition
 - [OpenTK.OpenAL](https://opentk.net/) - Cross-platform audio capture
-- [Kaldi Welsh Models](https://huggingface.co/techiaith/kaldi-cy) - From Bangor University
+- [Kaldi Welsh Models](https://huggingface.co/techiaith/kaldi-cy) - from @techiaith Bangor University and Gweltaz Duval-Guennoc, Preben Vangberg, and Sasha Wanasky.
 
 ## 📚 Documentation
 
