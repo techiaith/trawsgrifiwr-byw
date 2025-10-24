@@ -1,0 +1,8 @@
+# Place the Welsh Vosk model in this directory
+#
+# Download from:
+# https://github.com/Cymru-Breizh-Agile-Cymru-Project/vosk-cymraeg
+# or
+# https://huggingface.co/techiaith/kaldi-cy
+#
+# Rename the extracted folder to: vosk-model-cy

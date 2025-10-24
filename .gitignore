@@ -1,0 +1,233 @@
+# .NET Core / Avalonia Project .gitignore
+
+## Build results
+[Dd]ist/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Rr]eleases/
+
+## Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pidb
+*.sln.ide/
+*.DotSettings.user
+
+## Rider
+.idea/
+*.sln.iml
+
+## MonoDevelop / Xamarin Studio
+*.userprefs
+
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# NuGet Symbol Packages
+*.snupkg
+
+## Visual Studio cache/options
+.vs/
+.vscode/
+
+## Uncomment if you have tasks that create the project's static files in wwwroot
+#wwwroot/
+
+## MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+## NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+## Coverage
+*.coverage
+*.coveragexml
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## TeamCity
+_TeamCity*
+
+## DotCover
+*.dotCover
+
+## AxoCover
+.axoCover/*
+!.axoCover/settings.json
+
+## Coverlet
+coverage*.json
+coverage*.xml
+coverage*.info
+
+## Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+## Visual Studio Trace Files
+*.e2e
+
+## TFS
+$tf/
+
+## macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+## Thumbnails
+._*
+
+## Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+## Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+## Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+## Linux
+*~
+.directory
+.Trash-*
+.nfs*
+
+## Vosk Models (downloaded at runtime)
+**/Models/vosk-model-*
+!**/Models/.gitkeep
+
+## Application-specific
+# Downloaded Welsh model (auto-downloads on first run)
+src/bin/
+src/obj/
+src/Models/vosk-model-cy/
+
+## Temporary icon files (if using conversion script)
+src/Assets/icon-*.png
+src/Assets/icon.iconset/
+
+## Release archives
+releases/*.zip
+releases/*.tar.gz
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+*.iml
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Mono auto generated files
+mono_crash.*
+
+## Windows Installer files
+*.msm
+*.msp
+
+## Windows shortcuts
+*.lnk
+
+## Python (if you decide to create Python version later)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+## Backup files
+*.bak
+*.backup
+*~
+
+## Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+## OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

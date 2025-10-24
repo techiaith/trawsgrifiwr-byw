@@ -1,0 +1,191 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+        x:Class="VoskWelshSpeechRecognitionAvalonia.MainWindow"
+        Title="Vosk Welsh Speech Recognition - Adnabod Lleferydd Cymraeg"
+        Width="900" Height="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Styles>
+        <Style Selector="Button.modern">
+            <Setter Property="Background" Value="#0078D4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.modern:pointerover">
+            <Setter Property="Background" Value="#005A9E"/>
+        </Style>
+        <Style Selector="Button.modern:disabled">
+            <Setter Property="Background" Value="#CCCCCC"/>
+            <Setter Property="Foreground" Value="#666666"/>
+        </Style>
+
+        <Style Selector="Button.stop">
+            <Setter Property="Background" Value="#D13438"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.stop:pointerover">
+            <Setter Property="Background" Value="#A51D2D"/>
+        </Style>
+        <Style Selector="Button.stop:disabled">
+            <Setter Property="Background" Value="#CCCCCC"/>
+            <Setter Property="Foreground" Value="#666666"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0"
+                   Text="Vosk Welsh Speech Recognition"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"
+                   HorizontalAlignment="Center"/>
+
+        <!-- Status Panel -->
+        <Border Grid.Row="1"
+                Background="#F0F0F0"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15"
+                Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse x:Name="StatusIndicator"
+                         Width="16"
+                         Height="16"
+                         Fill="#999999"
+                         Margin="0,0,10,0"
+                         VerticalAlignment="Center"/>
+
+                <TextBlock x:Name="StatusText"
+                           Grid.Column="1"
+                           Text="Ready to start - Click 'Start Recording' to begin / Barod i ddechrau - Cliciwch 'Dechrau Recordio'"
+                           FontSize="14"
+                           Foreground="Black"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
+
+        <!-- Control Buttons -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,15">
+            <Button x:Name="StartButton"
+                    Content="Start Recording / Dechrau Recordio"
+                    Click="StartButton_Click"
+                    Classes="modern"/>
+            <Button x:Name="StopButton"
+                    Content="Stop Recording / Stopio Recordio"
+                    Click="StopButton_Click"
+                    IsEnabled="False"
+                    Classes="stop"/>
+            <Button x:Name="ClearButton"
+                    Content="Clear / Clirio"
+                    Click="ClearButton_Click"
+                    Classes="modern"/>
+        </StackPanel>
+
+        <!-- Live Input Panel -->
+        <Border Grid.Row="3"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                CornerRadius="5"
+                Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Live Input - Mewnbwn Byw"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="10,10,10,5"/>
+
+                <Border Grid.Row="1"
+                        Background="#FFFFEB"
+                        BorderBrush="#FFD700"
+                        BorderThickness="2"
+                        CornerRadius="5"
+                        Padding="10"
+                        Margin="10,0,10,10">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="LiveInputText"
+                                   FontSize="18"
+                                   TextWrapping="Wrap"
+                                   Foreground="#333333"
+                                   Text="Partial transcription will appear here... / Bydd trawsgrifiad rhannol yn ymddangos yma..."/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Separator -->
+        <Separator Grid.Row="4" Margin="0,5" Background="#CCCCCC" Height="1"/>
+
+        <!-- Completed Transcriptions -->
+        <Border Grid.Row="5"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                CornerRadius="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Completed Transcriptions - Trawsgrifiadau Cyflawn"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="10,10,10,5"/>
+
+                <ScrollViewer Grid.Row="1"
+                              x:Name="TranscriptionsScrollViewer"
+                              VerticalScrollBarVisibility="Auto"
+                              Margin="10,0,10,10">
+                    <TextBlock x:Name="TranscriptionsText"
+                               FontSize="14"
+                               TextWrapping="Wrap"
+                               Padding="10"
+                               Background="White"
+                               Foreground="Black"
+                               Text="Completed sentences will appear here... / Bydd brawddegau cyflawn yn ymddangos yma..."/>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
