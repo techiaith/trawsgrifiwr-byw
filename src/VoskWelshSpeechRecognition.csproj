@@ -7,6 +7,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 
+    <!-- Application Name (no spaces for file system compatibility) -->
+    <AssemblyName>ApHelLleferydd</AssemblyName>
+    <Product>Ap Hel Lleferydd</Product>
+
     <!-- Application Icon -->
     <ApplicationIcon>Assets/icon.ico</ApplicationIcon>
   </PropertyGroup>

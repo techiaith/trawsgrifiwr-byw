@@ -6,14 +6,14 @@
 set -e  # Exit on error
 
 echo "========================================="
-echo "Building Vosk Welsh Speech Recognition"
+echo "Building Ap Hel Lleferydd"
 echo "Platform: Linux x64"
 echo "========================================="
 
 # Project configuration
 PROJECT_DIR="src"
 OUTPUT_DIR="dist/linux-x64"
-APP_NAME="VoskWelshSpeechRecognition"
+APP_NAME="ApHelLleferydd"
 
 echo ""
 echo "Cleaning previous builds..."

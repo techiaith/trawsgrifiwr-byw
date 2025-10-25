@@ -6,14 +6,14 @@
 set -e  # Exit on error
 
 echo "========================================="
-echo "Building Vosk Welsh Speech Recognition"
+echo "Building Ap Hel Lleferydd"
 echo "Platform: Windows x64"
 echo "========================================="
 
 # Project configuration
 PROJECT_DIR="src"
 OUTPUT_DIR="dist/windows-x64"
-APP_NAME="VoskWelshSpeechRecognition.exe"
+APP_NAME="ApHelLleferydd.exe"
 
 echo ""
 echo "Cleaning previous builds..."

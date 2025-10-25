@@ -26,7 +26,7 @@ fi
 # Project configuration
 PROJECT_DIR="src"
 OUTPUT_DIR="dist/macos-$RID"
-APP_NAME="VoskWelshSpeechRecognition"
+APP_NAME="Ap Hel Lleferydd"
 
 echo ""
 echo "Cleaning previous builds..."
@@ -61,7 +61,8 @@ mkdir -p "$MACOS_DIR"
 mkdir -p "$RESOURCES_DIR"
 
 # Move executable and libraries into the bundle
-mv "$OUTPUT_DIR/$APP_NAME" "$MACOS_DIR/"
+# The executable is built with AssemblyName (no spaces)
+mv "$OUTPUT_DIR/ApHelLleferydd" "$MACOS_DIR/"
 mv "$OUTPUT_DIR"/*.dylib "$MACOS_DIR/" 2>/dev/null || true
 mv "$OUTPUT_DIR/Assets" "$MACOS_DIR/" 2>/dev/null || true
 mv "$OUTPUT_DIR/Models" "$MACOS_DIR/" 2>/dev/null || true
@@ -78,15 +79,15 @@ cat > "$CONTENTS_DIR/Info.plist" << 'EOF'
 <plist version="1.0">
 <dict>
     <key>CFBundleExecutable</key>
-    <string>VoskWelshSpeechRecognition</string>
+    <string>ApHelLleferydd</string>
     <key>CFBundleIconFile</key>
     <string>icon.png</string>
     <key>CFBundleIdentifier</key>
-    <string>com.techiaith.voskwelsh</string>
+    <string>com.techiaith.aphellleferydd</string>
     <key>CFBundleName</key>
-    <string>Vosk Welsh Speech Recognition</string>
+    <string>Ap Hel Lleferydd</string>
     <key>CFBundleDisplayName</key>
-    <string>Vosk Welsh</string>
+    <string>Ap Hel Lleferydd</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -98,7 +99,7 @@ cat > "$CONTENTS_DIR/Info.plist" << 'EOF'
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSMicrophoneUsageDescription</key>
-    <string>This app needs microphone access for Welsh speech recognition.</string>
+    <string>Mae'r ap hwn angen mynediad i'r meicroffon ar gyfer adnabod lleferydd Cymraeg.</string>
 </dict>
 </plist>
 EOF
