@@ -7,7 +7,8 @@
         Title="Ap Hel Lleferydd - Adnabod Lleferydd Byw // Real-time Speech Recognition"
         Width="900" Height="600"
         Background="#F5F5F5"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
 
     <Window.Styles>
         <Style Selector="Button.modern">
@@ -28,6 +29,10 @@
             <Setter Property="Background" Value="#E0E0E0"/>
             <Setter Property="Foreground" Value="#999999"/>
         </Style>
+        <Style Selector="Button.modern:focus /template/ ContentPresenter">
+            <Setter Property="BorderBrush" Value="#FFD700"/>
+            <Setter Property="BorderThickness" Value="3"/>
+        </Style>
 
         <Style Selector="Button.stop">
             <Setter Property="Background" Value="#C8102E"/>
@@ -46,6 +51,10 @@
         <Style Selector="Button.stop:disabled">
             <Setter Property="Background" Value="#E0E0E0"/>
             <Setter Property="Foreground" Value="#999999"/>
+        </Style>
+        <Style Selector="Button.stop:focus /template/ ContentPresenter">
+            <Setter Property="BorderBrush" Value="#FFD700"/>
+            <Setter Property="BorderThickness" Value="3"/>
         </Style>
     </Window.Styles>
 
@@ -66,7 +75,9 @@
                    FontWeight="Bold"
                    Foreground="#333333"
                    Margin="0,0,0,10"
-                   HorizontalAlignment="Center"/>
+                   HorizontalAlignment="Center"
+                   AutomationProperties.Name="Ap Hel Lleferydd - Welsh Speech Recognition Application"
+                   AutomationProperties.HelpText="Real-time Welsh speech recognition application"/>
 
         <!-- Status Panel -->
         <Border Grid.Row="1"
@@ -87,7 +98,9 @@
                          Height="16"
                          Fill="#00843D"
                          Margin="0,0,10,0"
-                         VerticalAlignment="Center"/>
+                         VerticalAlignment="Center"
+                         AutomationProperties.Name="Status indicator"
+                         AutomationProperties.HelpText="Visual status indicator"/>
 
                 <TextBlock x:Name="StatusText"
                            Grid.Column="1"
@@ -95,7 +108,10 @@
                            FontSize="14"
                            Foreground="#444444"
                            VerticalAlignment="Center"
-                           TextWrapping="Wrap"/>
+                           TextWrapping="Wrap"
+                           AutomationProperties.LiveSetting="Assertive"
+                           AutomationProperties.Name="Application status"
+                           AutomationProperties.HelpText="Current status of the speech recognition application"/>
             </Grid>
         </Border>
 
@@ -107,16 +123,25 @@
             <Button x:Name="StartButton"
                     Content="Start Recording / Dechrau Recordio"
                     Click="StartButton_Click"
-                    Classes="modern"/>
+                    Classes="modern"
+                    AutomationProperties.Name="Start Recording"
+                    AutomationProperties.HelpText="Press to start recording speech. Keyboard shortcut: F5"
+                    AutomationProperties.AccessKey="F5"/>
             <Button x:Name="StopButton"
                     Content="Stop Recording / Stopio Recordio"
                     Click="StopButton_Click"
                     IsEnabled="False"
-                    Classes="stop"/>
+                    Classes="stop"
+                    AutomationProperties.Name="Stop Recording"
+                    AutomationProperties.HelpText="Press to stop recording speech. Keyboard shortcut: F6"
+                    AutomationProperties.AccessKey="F6"/>
             <Button x:Name="ClearButton"
                     Content="Clear / Clirio"
                     Click="ClearButton_Click"
-                    Classes="modern"/>
+                    Classes="modern"
+                    AutomationProperties.Name="Clear Transcriptions"
+                    AutomationProperties.HelpText="Press to clear all transcription text. Keyboard shortcut: F7"
+                    AutomationProperties.AccessKey="F7"/>
         </StackPanel>
 
         <!-- Live Input Panel -->
@@ -139,7 +164,9 @@
                     <TextBlock Text="Mewnbwn Byw - Live Input"
                                FontSize="15"
                                FontWeight="SemiBold"
-                               Foreground="White"/>
+                               Foreground="White"
+                               AutomationProperties.Name="Live Input Section"
+                               AutomationProperties.HelpText="This section shows partial transcription as you speak"/>
                 </Border>
 
                 <Border Grid.Row="1"
@@ -148,12 +175,16 @@
                         BorderThickness="0,2,0,0"
                         Padding="15"
                         Margin="0">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  AutomationProperties.Name="Live input scroll area">
                         <TextBlock x:Name="LiveInputText"
                                    FontSize="18"
                                    TextWrapping="Wrap"
                                    Foreground="#333333"
-                                   Text="Bydd trawsgrifiad rhannol yn ymddangos yma... / Partial transcription will appear here..."/>
+                                   Text="Bydd trawsgrifiad rhannol yn ymddangos yma... / Partial transcription will appear here..."
+                                   AutomationProperties.LiveSetting="Polite"
+                                   AutomationProperties.Name="Live partial transcription"
+                                   AutomationProperties.HelpText="Shows real-time partial transcription of your speech"/>
                     </ScrollViewer>
                 </Border>
             </Grid>
@@ -181,7 +212,9 @@
                     <TextBlock Text="Trawsgrifiadau Cyflawn - Completed Transcriptions"
                                FontSize="15"
                                FontWeight="SemiBold"
-                               Foreground="White"/>
+                               Foreground="White"
+                               AutomationProperties.Name="Completed Transcriptions Section"
+                               AutomationProperties.HelpText="This section shows completed transcribed sentences"/>
                 </Border>
 
                 <Border Grid.Row="1"
@@ -190,12 +223,16 @@
                         BorderThickness="0,2,0,0"
                         Padding="15">
                     <ScrollViewer x:Name="TranscriptionsScrollViewer"
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollBarVisibility="Auto"
+                                  AutomationProperties.Name="Completed transcriptions scroll area">
                         <TextBlock x:Name="TranscriptionsText"
                                    FontSize="14"
                                    TextWrapping="Wrap"
                                    Foreground="#333333"
-                                   Text="Bydd brawddegau cyflawn yn ymddangos yma... / Completed sentences will appear here..."/>
+                                   Text="Bydd brawddegau cyflawn yn ymddangos yma... / Completed sentences will appear here..."
+                                   AutomationProperties.LiveSetting="Polite"
+                                   AutomationProperties.Name="Completed transcriptions"
+                                   AutomationProperties.HelpText="Shows finalized transcribed sentences with timestamps"/>
                     </ScrollViewer>
                 </Border>
             </Grid>

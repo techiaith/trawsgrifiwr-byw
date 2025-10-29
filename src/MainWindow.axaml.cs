@@ -4,7 +4,10 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Automation;
+using Avalonia.Automation.Peers;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
@@ -37,6 +40,32 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         InitializeModel();
+    }
+
+    private void Window_KeyDown(object? sender, KeyEventArgs e)
+    {
+        // Handle keyboard shortcuts
+        switch (e.Key)
+        {
+            case Key.F5:
+                if (StartButton?.IsEnabled == true)
+                {
+                    StartButton_Click(sender, new RoutedEventArgs());
+                    e.Handled = true;
+                }
+                break;
+            case Key.F6:
+                if (StopButton?.IsEnabled == true)
+                {
+                    StopButton_Click(sender, new RoutedEventArgs());
+                    e.Handled = true;
+                }
+                break;
+            case Key.F7:
+                ClearButton_Click(sender, new RoutedEventArgs());
+                e.Handled = true;
+                break;
+        }
     }
 
     private async void InitializeModel()
@@ -90,7 +119,12 @@ public partial class MainWindow : Window
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 if (StartButton != null)
+                {
                     StartButton.IsEnabled = true;
+                    // Set initial focus to start button
+                    StartButton.Focus();
+                }
+                AnnounceToScreenReader("Application ready. Press F5 to start recording.", isAssertive: true);
             });
         }
         catch (Exception ex)
@@ -287,6 +321,8 @@ public partial class MainWindow : Window
             LiveInputText.Text = "Partial transcription will appear here... / Bydd trawsgrifiad rhannol yn ymddangos yma...";
         if (TranscriptionsText != null)
             TranscriptionsText.Text = "Completed sentences will appear here... / Bydd brawddegau cyflawn yn ymddangos yma...";
+
+        AnnounceToScreenReader("All transcriptions cleared.", isAssertive: true);
     }
 
     private void StartRecording()
@@ -344,14 +380,20 @@ public partial class MainWindow : Window
                 if (StartButton != null)
                     StartButton.IsEnabled = false;
                 if (StopButton != null)
+                {
                     StopButton.IsEnabled = true;
+                    // Move focus to stop button for accessibility
+                    StopButton.Focus();
+                }
                 UpdateStatus("Yn recordio... Siaradwch yn Gymraeg - Recording... Speak in Welsh", Brushes.Red);
+                AnnounceToScreenReader("Recording started. Speak in Welsh. Press F6 to stop.", isAssertive: true);
             });
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error starting capture: {ex.Message}");
             UpdateStatus($"Error starting recording: {ex.Message}", Brushes.Red);
+            AnnounceToScreenReader($"Error starting recording: {ex.Message}", isAssertive: true);
             _isRecording = false;
         }
     }
@@ -402,7 +444,11 @@ public partial class MainWindow : Window
         Dispatcher.UIThread.InvokeAsync(() =>
         {
             if (StartButton != null)
+            {
                 StartButton.IsEnabled = true;
+                // Move focus back to start button for accessibility
+                StartButton.Focus();
+            }
             if (StopButton != null)
                 StopButton.IsEnabled = false;
 
@@ -411,6 +457,7 @@ public partial class MainWindow : Window
                 LiveInputText.Text = "Partial transcription will appear here... / Bydd trawsgrifiad rhannol yn ymddangos yma...";
 
             UpdateStatus("Recordio wedi stopio - Barod i recordio eto / Recording stopped - Ready to record again", Brushes.Orange);
+            AnnounceToScreenReader("Recording stopped. Ready to record again. Press F5 to start.", isAssertive: true);
         });
     }
 
@@ -585,6 +632,9 @@ public partial class MainWindow : Window
 
                         // Auto-scroll to bottom
                         TranscriptionsScrollViewer?.ScrollToEnd();
+
+                        // Announce the completed transcription to screen readers
+                        AnnounceToScreenReader($"Transcribed: {text}", isAssertive: false);
                     }
                     else
                     {
@@ -608,13 +658,43 @@ public partial class MainWindow : Window
         Dispatcher.UIThread.Post(() =>
         {
             if (StatusText != null)
+            {
                 StatusText.Text = message;
+                // Announce status changes to screen readers
+                AnnounceToScreenReader(message, isAssertive: true);
+            }
 
             if (StatusIndicator != null)
                 StatusIndicator.Fill = color;
 
             Console.WriteLine($"Status updated: {message}");
         });
+    }
+
+    private void AnnounceToScreenReader(string message, bool isAssertive = false)
+    {
+        // Create a temporary TextBlock for screen reader announcements
+        // This ensures the announcement happens even if the main text hasn't changed
+        var announcement = new TextBlock
+        {
+            Text = message,
+            IsVisible = false
+        };
+
+        AutomationProperties.SetLiveSetting(announcement, isAssertive ? AutomationLiveSetting.Assertive : AutomationLiveSetting.Polite);
+        AutomationProperties.SetName(announcement, message);
+
+        // Add to main grid temporarily
+        if (this.Content is Grid mainGrid)
+        {
+            mainGrid.Children.Add(announcement);
+
+            // Remove after a short delay
+            Dispatcher.UIThread.Post(() =>
+            {
+                mainGrid.Children.Remove(announcement);
+            }, DispatcherPriority.Background);
+        }
     }
 
     protected override void OnClosing(WindowClosingEventArgs e)
