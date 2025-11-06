@@ -4,7 +4,7 @@
 
 ---
 
-## 🏴󠁧󠁢󠁷󠁬󠁳󠁿 Cymraeg
+## Cymraeg
 
 Rhaglen bwrdd gwaith trawsplatfform (Windows, Mac a Linux) ar gyfer adnabod lleferydd Cymraeg byw gan ddefnyddio model Vosk.
 
@@ -115,7 +115,7 @@ Croeso i chi gysylltu drwy ein hysbysu am gwallau ac/neu i gynnig gwelliannau.
 
 <a name="english"></a>
 
-## 🇬🇧 English
+## English
 
 **[Back to Welsh / Yn ôl i'r Gymraeg](#-cymraeg)**
 
