@@ -20,18 +20,14 @@ Rhaglen bwrdd gwaith trawsplatfform (Windows, Mac a Linux) ar gyfer adnabod llef
 - 🔄 **Lawrlwytho Modelau'n Awtomatig** - Mae'r model Cymraeg yn lawrlwytho'n awtomatig (~47MB)
 - 🌐 **Rhyngwyneb Dwyieithog** - Rhyngwyneb yn Gymraeg a Saesneg
 
-### 📥 Ar gyfer Defnyddwyr
-
-Gweler **[USER_README.md](USER_README.md)** am ddolenni lawrlwytho a chyfarwyddiadau gosod.
-
 ### 🚀 Ar gyfer Datblygwyr
 
 #### Cychwyn Cyflym
 
 ```bash
 # Clonio'r ystorfa
-git clone https://github.com/yourusername/vosk-windows.git
-cd vosk-windows
+git clone https://github.com/techiaith/trawsgrifiwr-byw.git
+cd trawsgrifiwr-byw
 
 # Adeiladu a rhedeg o'r ffynhonnell
 cd src
@@ -55,21 +51,17 @@ dotnet run
 ./create-releases.sh
 ```
 
-Gweler **[DISTRIBUTION.md](DISTRIBUTION.md)** am gyfarwyddiadau adeiladu a dosbarthu manwl.
-
 ### 📁 Strwythur y Prosiect
 
 ```
-vosk-windows/
+trawsgrifiwr-byw/
 ├── src/                      # Côd ffynhonnell
 │   ├── MainWindow.axaml      # Cynllun y rhyngwyneb defnyddiwr
 │   ├── MainWindow.axaml.cs   # Cod yr ap
 │   ├── Assets/               # Eiconau
 │   └── *.csproj              # Ffeil prosiect
 ├── build-*.sh                # Sgriptiau adeiladu ar gyfer pob llwyfan
-├── dist/                     # Allbwn adeiladu (gitignored)
-├── DISTRIBUTION.md           # Canllaw adeiladu/defnyddio
-└── USER_README.md            # Dogfennaeth defnyddiwr terfynol
+└── dist/                     # Allbwn adeiladu (gitignored)
 ```
 
 ### 🛠️ Technolegau a ddefnyddir
@@ -79,14 +71,6 @@ vosk-windows/
 - [Vosk](https://alphacephei.com/vosk/) - Adnabod lleferydd all-lein
 - [OpenTK.OpenAL](https://opentk.net/) - Dal sain trawsplatfform
 - [Modelau Cymraeg Kaldi](https://huggingface.co/techiaith/kaldi-cy) - gan Gweltaz Duval-Gwennoc, Preben Vanberg, Sasha Wanasky a techiaith Prifysgol Bangor
-
-### 📚 Dogfennaeth
-
-- **[USER_README.md](USER_README.md)** - Ar gyfer defnyddwyr terfynol (lawrlwytho a gosod)
-- **[DISTRIBUTION.md](DISTRIBUTION.md)** - Ar gyfer datblygwyr (adeiladu a phecynnu)
-- **[ADDING_ICONS.md](ADDING_ICONS.md)** - Sut i addasu eicon yr ap
-- **[ICON_QUICK_SETUP.md](ICON_QUICK_SETUP.md)** - Canllaw gosod eicon cyflym
-- **[VOSK_ON_WINDOWS.md](VOSK_ON_WINDOWS.md)** - Nodiadau technegol ar integreiddio Vosk
 
 ### 🔗 Adnoddau
 
@@ -105,10 +89,10 @@ vosk-windows/
 
 ### 🙏 Cydnabyddiaeth
 
+- **Kaldi Cymraeg** - Gweltaz Duval-Guennoc (@gweltou), Preben Vanberg (@prvInSpace), Sasha Wanasky (@wanasash), Uned Technolegau Iaith, Prifysgol Bangor (@techiaith). Arianwyd gan Agile Cymru, Llywodraeth Cymru. (https://github.com/Cymru-Breizh-Agile-Cymru-Project/vosk-cymraeg)
 - **Vosk** - Alpha Cephei Inc. (trwydded Apache 2.0)
 - **Modelau Iaith Gymraeg** - Prifysgol Bangor / Techiaith
-- **Ysbrydoliaeth** - gweithrediad vosk-tui Python
-- **Eicon** - Dyluniad arfer gan ddefnyddio lliwiau Baner Cymru
+- **Ysbrydoliaeth** - gweithrediad vosk-tui Python gan Preben Vanberg (https://github.com/Cymru-Breizh-Agile-Cymru-Project/vosk-tui)
 
 ### 📄 Trwydded
 
@@ -189,16 +173,14 @@ See **[DISTRIBUTION.md](DISTRIBUTION.md)** for detailed build and distribution i
 ### 📁 Project Structure
 
 ```
-vosk-windows/
+trawsgrifiwr-byw/
 ├── src/                      # Source code
 │   ├── MainWindow.axaml      # UI layout
 │   ├── MainWindow.axaml.cs   # Application logic
 │   ├── Assets/               # Icons
 │   └── *.csproj              # Project file
 ├── build-*.sh                # Build scripts for each platform
-├── dist/                     # Build output (gitignored)
-├── DISTRIBUTION.md           # Build/deployment guide
-└── USER_README.md            # End-user documentation
+└──dist/                     # Build output (gitignored)
 ```
 
 ### 🛠️ Tech Stack
@@ -209,13 +191,6 @@ vosk-windows/
 - [OpenTK.OpenAL](https://opentk.net/) - Cross-platform audio capture
 - [Kaldi Welsh Models](https://huggingface.co/techiaith/kaldi-cy) - by Gweltaz Duval-Gwennoc, Preben Vanberg, Sasha Wanasky and techiaith Bangor University
 
-### 📚 Documentation
-
-- **[USER_README.md](USER_README.md)** - For end users (download & install)
-- **[DISTRIBUTION.md](DISTRIBUTION.md)** - For developers (building & packaging)
-- **[ADDING_ICONS.md](ADDING_ICONS.md)** - How to customize the app icon
-- **[ICON_QUICK_SETUP.md](ICON_QUICK_SETUP.md)** - Quick icon setup guide
-- **[VOSK_ON_WINDOWS.md](VOSK_ON_WINDOWS.md)** - Technical notes on Vosk integration
 
 ### 🔗 Resources
 
@@ -237,7 +212,6 @@ vosk-windows/
 - **Vosk** - Alpha Cephei Inc. (Apache 2.0 license)
 - **Welsh Language Models** - Bangor University / Techiaith
 - **Inspiration** - vosk-tui Python implementation
-- **Icon** - Custom design using Welsh flag colors
 
 ### 📄 License
 
