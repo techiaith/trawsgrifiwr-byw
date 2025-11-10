@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*"
+           Name="Trawsgrifiwr Byw"
+           Language="1033"
+           Version="1.0.0"
+           Manufacturer="Techiaith"
+           UpgradeCode="A1B2C3D4-E5F6-7890-ABCD-EF1234567890">
+
+    <Package InstallerVersion="200"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Description="Trawsgrifiwr Byw - Real-time Welsh Speech Recognition"
+             Comments="Real-time Welsh speech recognition application using Vosk" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Application Icon -->
+    <Icon Id="AppIcon.ico" SourceFile="..\src\Assets\icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+
+    <!-- Add/Remove Programs Information -->
+    <Property Id="ARPHELPLINK" Value="https://github.com/techiaith/trawsgrifiwr-byw" />
+    <Property Id="ARPURLINFOABOUT" Value="https://techiaith.cymru/" />
+
+    <!-- Feature: Main Application -->
+    <Feature Id="ProductFeature" Title="Trawsgrifiwr Byw" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="DesktopShortcut" />
+    </Feature>
+
+    <!-- UI -->
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+
+    <!-- Custom UI text for bilingual support -->
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="Trawsgrifiwr Byw" />
+      </Directory>
+
+      <!-- Start Menu -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Trawsgrifiwr Byw"/>
+      </Directory>
+
+      <!-- Desktop -->
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- Main Executable -->
+      <Component Id="MainExecutable" Guid="B1C2D3E4-F5A6-7890-BCDE-FA1234567890">
+        <File Id="TrawsgrifiWrBywExe"
+              Source="..\dist\windows-x64\Trawsgrifiwr-Byw.exe"
+              KeyPath="yes"
+              Checksum="yes" />
+      </Component>
+
+      <!-- All DLL files -->
+      <Component Id="DllFiles" Guid="C1D2E3F4-A5B6-7890-CDEF-AB1234567890">
+        <File Id="VoskDll" Source="..\dist\windows-x64\libvosk.dll" />
+        <File Id="VoskSharpDll" Source="..\dist\windows-x64\Vosk.dll" />
+      </Component>
+
+      <!-- Assets folder -->
+      <Component Id="AssetsFolder" Guid="D1E2F3A4-B5C6-7890-DEFA-BC1234567890">
+        <CreateFolder />
+        <RemoveFolder Id="RemoveAssetsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU"
+                       Key="Software\Techiaith\TrawsgrifiWrByw"
+                       Name="AssetsInstalled"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Start Menu Shortcut -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="E1F2A3B4-C5D6-7890-EFAB-CD1234567890">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="Trawsgrifiwr Byw"
+                  Description="Real-time Welsh Speech Recognition"
+                  Target="[INSTALLFOLDER]Trawsgrifiwr-Byw.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon.ico" />
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"
+                       Key="Software\Techiaith\TrawsgrifiWrByw"
+                       Name="StartMenuInstalled"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <!-- Desktop Shortcut -->
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="F1A2B3C4-D5E6-7890-ABCD-DE1234567890">
+        <Shortcut Id="ApplicationDesktopShortcut"
+                  Name="Trawsgrifiwr Byw"
+                  Description="Real-time Welsh Speech Recognition"
+                  Target="[INSTALLFOLDER]Trawsgrifiwr-Byw.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon.ico" />
+        <RemoveFolder Id="CleanUpDesktopShortcut" On="uninstall"/>
+        <RegistryValue Root="HKCU"
+                       Key="Software\Techiaith\TrawsgrifiWrByw"
+                       Name="DesktopInstalled"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

@@ -1,0 +1,166 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers on version tags like v1.0.0
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  build-windows:
+    name: Build Windows (x64 + MSI)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install WiX Toolset
+        run: |
+          dotnet tool install --global wix --version 5.0.0
+          wix --version
+
+      - name: Build Windows Application
+        shell: bash
+        run: |
+          chmod +x build-windows.sh
+          ./build-windows.sh
+
+      - name: Build MSI Installer
+        shell: bash
+        run: |
+          # Install WiX extensions
+          wix extension add WixToolset.UI.wixext
+
+          # Build the installer
+          cd installer
+          wix build Trawsgrifiwr-Byw.wxs -arch x64 -ext WixToolset.UI.wixext -out ../dist/installer/Trawsgrifiwr-Byw-v1.0.0.msi
+          cd ..
+
+      - name: Create Windows ZIP Archive
+        shell: bash
+        run: |
+          mkdir -p releases
+          cd dist/windows-x64
+          7z a ../../releases/Trawsgrifiwr-Byw-Windows-x64-v${{ github.ref_name || '1.0.0' }}.zip *
+          cd ../..
+
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: releases/Trawsgrifiwr-Byw-Windows-x64-*.zip
+
+      - name: Upload MSI Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-msi-installer
+          path: dist/installer/*.msi
+
+  build-macos:
+    name: Build macOS (Universal)
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build macOS Application
+        run: |
+          chmod +x build-macos.sh
+          ./build-macos.sh
+
+      - name: Create macOS Archive
+        run: |
+          mkdir -p releases
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "arm64" ]; then
+            RID="osx-arm64"
+          else
+            RID="osx-x64"
+          fi
+          cd dist/macos-$RID
+          zip -r ../../releases/Trawsgrifiwr-Byw-macOS-$RID-v${{ github.ref_name || '1.0.0' }}.zip .
+          cd ../..
+
+      - name: Upload macOS Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build
+          path: releases/Trawsgrifiwr-Byw-macOS-*.zip
+
+  build-linux:
+    name: Build Linux (x64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build Linux Application
+        run: |
+          chmod +x build-linux.sh
+          ./build-linux.sh
+
+      - name: Create Linux Archive
+        run: |
+          mkdir -p releases
+          cd dist/linux-x64
+          tar -czf ../../releases/Trawsgrifiwr-Byw-Linux-x64-v${{ github.ref_name || '1.0.0' }}.tar.gz .
+          cd ../..
+
+      - name: Upload Linux Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64
+          path: releases/Trawsgrifiwr-Byw-Linux-x64-*.tar.gz
+
+  create-release:
+    name: Create GitHub Release
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Trawsgrifiwr Byw ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            artifacts/windows-x64/*.zip
+            artifacts/windows-msi-installer/*.msi
+            artifacts/macos-build/*.zip
+            artifacts/linux-x64/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -54,6 +54,15 @@ if [ -d "dist/linux-x64" ]; then
     echo "  ✓ Created: $RELEASE_DIR/Trawsgrifiwr-Byw-Linux-x64-v$VERSION.tar.gz"
 fi
 
+# Windows MSI Installer
+if [ -f "dist/installer/Trawsgrifiwr-Byw-v$VERSION.msi" ]; then
+    echo "Copying Windows MSI Installer..."
+    cp "dist/installer/Trawsgrifiwr-Byw-v$VERSION.msi" "$RELEASE_DIR/"
+    echo "  ✓ Created: $RELEASE_DIR/Trawsgrifiwr-Byw-v$VERSION.msi"
+else
+    echo "Note: Windows MSI installer not found. Run ./build-installer.sh on Windows to create it."
+fi
+
 echo ""
 echo "========================================="
 echo "Release Archives Created!"

@@ -1,0 +1,104 @@
+name: Build Test
+
+# Test builds on every push (no release creation)
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-build-windows:
+    name: Test Windows Build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build Windows Application
+        shell: bash
+        run: |
+          chmod +x build-windows.sh
+          ./build-windows.sh
+
+      - name: Check build output
+        shell: bash
+        run: |
+          ls -lh dist/windows-x64/
+          if [ -f "dist/windows-x64/Trawsgrifiwr-Byw.exe" ]; then
+            echo "✓ Windows build successful"
+          else
+            echo "✗ Windows build failed"
+            exit 1
+          fi
+
+  test-build-macos:
+    name: Test macOS Build
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build macOS Application
+        run: |
+          chmod +x build-macos.sh
+          ./build-macos.sh
+
+      - name: Check build output
+        run: |
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "arm64" ]; then
+            RID="osx-arm64"
+          else
+            RID="osx-x64"
+          fi
+          ls -lh "dist/macos-$RID/"
+          if [ -d "dist/macos-$RID/Trawsgrifiwr Byw.app" ]; then
+            echo "✓ macOS build successful"
+          else
+            echo "✗ macOS build failed"
+            exit 1
+          fi
+
+  test-build-linux:
+    name: Test Linux Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build Linux Application
+        run: |
+          chmod +x build-linux.sh
+          ./build-linux.sh
+
+      - name: Check build output
+        run: |
+          ls -lh dist/linux-x64/
+          if [ -f "dist/linux-x64/Trawsgrifiwr-Byw" ]; then
+            echo "✓ Linux build successful"
+          else
+            echo "✗ Linux build failed"
+            exit 1
+          fi
