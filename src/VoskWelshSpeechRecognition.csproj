@@ -8,8 +8,8 @@
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 
     <!-- Application Name (no spaces for file system compatibility) -->
-    <AssemblyName>ApHelLleferydd</AssemblyName>
-    <Product>Ap Hel Lleferydd</Product>
+    <AssemblyName>Trawsgrifiwr-Byw</AssemblyName>
+    <Product>Trawsgrifiwr Byw</Product>
 
     <!-- Application Icon -->
     <ApplicationIcon>Assets/icon.ico</ApplicationIcon>

@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
         x:Class="VoskWelshSpeechRecognitionAvalonia.MainWindow"
-        Title="Ap Hel Lleferydd - Adnabod Lleferydd Byw // Real-time Speech Recognition"
+        Title="Trawsgrifiwr Byw - Adnabod Lleferydd Byw // Real-time Speech Recognition"
         Width="900" Height="600"
         Background="#F5F5F5"
         WindowStartupLocation="CenterScreen"
@@ -70,13 +70,13 @@
 
         <!-- Title -->
         <TextBlock Grid.Row="0"
-                   Text="Ap Hel Lleferydd"
+                   Text="Trawsgrifiwr Byw"
                    FontSize="28"
                    FontWeight="Bold"
                    Foreground="#333333"
                    Margin="0,0,0,10"
                    HorizontalAlignment="Center"
-                   AutomationProperties.Name="Ap Hel Lleferydd - Welsh Speech Recognition Application"
+                   AutomationProperties.Name="Trawsgrifiwr Byw - Welsh Speech Recognition Application"
                    AutomationProperties.HelpText="Real-time Welsh speech recognition application"/>
 
         <!-- Status Panel -->

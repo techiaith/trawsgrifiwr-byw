@@ -6,14 +6,14 @@
 set -e  # Exit on error
 
 echo "========================================="
-echo "Building Ap Hel Lleferydd"
+echo "Building Trawsgrifiwr Byw"
 echo "Platform: Linux x64"
 echo "========================================="
 
 # Project configuration
 PROJECT_DIR="src"
 OUTPUT_DIR="dist/linux-x64"
-APP_NAME="ApHelLleferydd"
+APP_NAME="Trawsgrifiwr-Byw"
 
 echo ""
 echo "Cleaning previous builds..."

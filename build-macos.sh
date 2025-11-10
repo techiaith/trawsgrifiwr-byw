@@ -26,7 +26,7 @@ fi
 # Project configuration
 PROJECT_DIR="src"
 OUTPUT_DIR="dist/macos-$RID"
-APP_NAME="Ap Hel Lleferydd"
+APP_NAME="Trawsgrifiwr Byw"
 
 echo ""
 echo "Cleaning previous builds..."
@@ -62,7 +62,7 @@ mkdir -p "$RESOURCES_DIR"
 
 # Move executable and libraries into the bundle
 # The executable is built with AssemblyName (no spaces)
-mv "$OUTPUT_DIR/ApHelLleferydd" "$MACOS_DIR/"
+mv "$OUTPUT_DIR/Trawsgrifiwr-Byw" "$MACOS_DIR/"
 mv "$OUTPUT_DIR"/*.dylib "$MACOS_DIR/" 2>/dev/null || true
 mv "$OUTPUT_DIR/Assets" "$MACOS_DIR/" 2>/dev/null || true
 mv "$OUTPUT_DIR/Models" "$MACOS_DIR/" 2>/dev/null || true
@@ -79,15 +79,15 @@ cat > "$CONTENTS_DIR/Info.plist" << 'EOF'
 <plist version="1.0">
 <dict>
     <key>CFBundleExecutable</key>
-    <string>ApHelLleferydd</string>
+    <string>Trawsgrifiwr-Byw</string>
     <key>CFBundleIconFile</key>
     <string>icon.png</string>
     <key>CFBundleIdentifier</key>
-    <string>com.techiaith.aphellleferydd</string>
+    <string>com.techiaith.trawsgrifiwr-byw</string>
     <key>CFBundleName</key>
-    <string>Ap Hel Lleferydd</string>
+    <string>Trawsgrifiwr Byw</string>
     <key>CFBundleDisplayName</key>
-    <string>Ap Hel Lleferydd</string>
+    <string>Trawsgrifiwr Byw</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>

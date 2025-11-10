@@ -2,7 +2,7 @@
 
 ## Overview
 
-Ap Hel Lleferydd / Welsh Speech Recognition Application has been designed with comprehensive accessibility features to ensure it can be used by everyone, including blind and visually impaired users who rely on screen readers.
+Trawsgrifiwr Byw / Welsh Speech Recognition Application has been designed with comprehensive accessibility features to ensure it can be used by everyone, including blind and visually impaired users who rely on screen readers.
 
 ## Screen Reader Support
 

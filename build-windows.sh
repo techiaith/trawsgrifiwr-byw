@@ -6,14 +6,14 @@
 set -e  # Exit on error
 
 echo "========================================="
-echo "Building Ap Hel Lleferydd"
+echo "Building Trawsgrifiwr Byw"
 echo "Platform: Windows x64"
 echo "========================================="
 
 # Project configuration
 PROJECT_DIR="src"
 OUTPUT_DIR="dist/windows-x64"
-APP_NAME="ApHelLleferydd.exe"
+APP_NAME="Trawsgrifiwr-Byw.exe"
 
 echo ""
 echo "Cleaning previous builds..."
