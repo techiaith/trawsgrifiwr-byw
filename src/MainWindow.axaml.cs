@@ -144,46 +144,59 @@ public partial class MainWindow : Window
     {
         const string modelUrl = "https://huggingface.co/techiaith/kaldi-cy/resolve/main/model_cy.tar.gz";
         string tarGzPath = "";
+        string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "download-error.log");
 
-        //Console.WriteLine("Starting model download...");
+        LogToFile(logPath, "Starting model download...");
+        LogToFile(logPath, $"Download URL: {modelUrl}");
+        LogToFile(logPath, $"Target directory: {modelsDir}");
 
         try
         {
-            //Console.WriteLine($"Creating Models directory: {modelsDir}");
+            LogToFile(logPath, $"Creating Models directory: {modelsDir}");
             // Create Models directory if it doesn't exist
             Directory.CreateDirectory(modelsDir);
 
             if (!Directory.Exists(modelsDir))
             {
-                //Console.WriteLine("Failed to create Models directory!");
+                LogToFile(logPath, "FATAL: Failed to create Models directory!");
+                UpdateStatus("Error: Failed to create Models directory", Brushes.Red);
                 return false;
             }
 
+            LogToFile(logPath, "Models directory created successfully");
+
             tarGzPath = Path.Combine(modelsDir, "model_cy.tar.gz");
-            //Console.WriteLine($"Will download to: {tarGzPath}");
+            LogToFile(logPath, $"Will download to: {tarGzPath}");
 
             // Download the model
             UpdateStatus("Yn lawrlwytho... - Downloading...", Brushes.Orange);
+            LogToFile(logPath, "Starting HTTP download...");
 
             using (var httpClient = new HttpClient())
             {
                 httpClient.Timeout = TimeSpan.FromMinutes(30); // Large model, allow time
+                LogToFile(logPath, $"HTTP timeout set to 30 minutes");
 
-                //Console.WriteLine($"Starting HTTP download from: {modelUrl}");
+                LogToFile(logPath, $"Sending GET request to: {modelUrl}");
 
                 using (var response = await httpClient.GetAsync(modelUrl, HttpCompletionOption.ResponseHeadersRead))
                 {
-                    //Console.WriteLine($"HTTP Response Status: {response.StatusCode}");
+                    LogToFile(logPath, $"HTTP Response Status: {response.StatusCode}");
+                    LogToFile(logPath, $"HTTP Response Headers: {response.Headers}");
+
                     response.EnsureSuccessStatusCode();
 
                     var totalBytes = response.Content.Headers.ContentLength ?? -1L;
                     var canReportProgress = totalBytes != -1;
 
-                    //Console.WriteLine($"Content length: {totalBytes} bytes ({totalBytes / 1024 / 1024}MB)");
+                    LogToFile(logPath, $"Content length: {totalBytes} bytes ({(totalBytes / 1024.0 / 1024.0):F2}MB)");
+                    LogToFile(logPath, $"Can report progress: {canReportProgress}");
 
+                    LogToFile(logPath, "Opening file stream for writing...");
                     using (var contentStream = await response.Content.ReadAsStreamAsync())
                     using (var fileStream = new FileStream(tarGzPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
                     {
+                        LogToFile(logPath, "File stream opened successfully");
                         var totalRead = 0L;
                         var buffer = new byte[8192];
                         var isMoreToRead = true;
@@ -209,20 +222,25 @@ public partial class MainWindow : Window
                         }
                         while (isMoreToRead);
 
-                        //Console.WriteLine($"Download complete. Total bytes read: {totalRead}");
+                        LogToFile(logPath, $"Download complete. Total bytes read: {totalRead} ({(totalRead / 1024.0 / 1024.0):F2}MB)");
                     }
                 }
             }
 
-            //Console.WriteLine($"Verifying downloaded file exists: {File.Exists(tarGzPath)}");
+            LogToFile(logPath, $"Verifying downloaded file exists: {File.Exists(tarGzPath)}");
+            if (File.Exists(tarGzPath))
+            {
+                var fileInfo = new FileInfo(tarGzPath);
+                LogToFile(logPath, $"Downloaded file size: {fileInfo.Length} bytes ({(fileInfo.Length / 1024.0 / 1024.0):F2}MB)");
+            }
 
             // Extract the tar.gz file
             UpdateStatus("Extracting model files...", Brushes.Orange);
-            //Console.WriteLine("Starting extraction...");
+            LogToFile(logPath, "Starting extraction...");
 
-            await Task.Run(() => ExtractTarGz(tarGzPath, modelsDir));
+            await Task.Run(() => ExtractTarGz(tarGzPath, modelsDir, logPath));
 
-            //Console.WriteLine("Extraction complete");
+            LogToFile(logPath, "Extraction complete");
 
             // Rename extracted folder to vosk-model-cy
             string extractedPath = Path.Combine(modelsDir, "model");
@@ -262,11 +280,42 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            //Console.WriteLine($"Exception during download: {ex.GetType().Name}");
-            //Console.WriteLine($"Message: {ex.Message}");
-            //Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            // Log detailed error information
+            LogToFile(logPath, $"=== ERROR OCCURRED ===");
+            LogToFile(logPath, $"Exception Type: {ex.GetType().FullName}");
+            LogToFile(logPath, $"Message: {ex.Message}");
+            LogToFile(logPath, $"Stack Trace:\n{ex.StackTrace}");
 
-            UpdateStatus($"Download error: {ex.Message}", Brushes.Red);
+            if (ex.InnerException != null)
+            {
+                LogToFile(logPath, $"Inner Exception: {ex.InnerException.GetType().FullName}");
+                LogToFile(logPath, $"Inner Message: {ex.InnerException.Message}");
+                LogToFile(logPath, $"Inner Stack Trace:\n{ex.InnerException.StackTrace}");
+            }
+
+            // Show detailed error in UI
+            string errorDetails = $"{ex.GetType().Name}: {ex.Message}";
+            if (ex.InnerException != null)
+            {
+                errorDetails += $"\n\nInner: {ex.InnerException.Message}";
+            }
+
+            UpdateStatus($"Download failed. See download-error.log for details.", Brushes.Red);
+
+            // Show detailed error in a message box
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                await ShowErrorDialog("Model Download Failed",
+                    $"Failed to download the Welsh language model.\n\n" +
+                    $"Error: {errorDetails}\n\n" +
+                    $"Detailed logs saved to: download-error.log\n\n" +
+                    $"Common causes:\n" +
+                    $"• No internet connection\n" +
+                    $"• Firewall blocking the download\n" +
+                    $"• Antivirus blocking file access\n" +
+                    $"• Insufficient disk space\n" +
+                    $"• Hugging Face server temporarily unavailable");
+            });
 
             // Clean up partial download
             if (!string.IsNullOrEmpty(tarGzPath) && File.Exists(tarGzPath))
@@ -274,22 +323,46 @@ public partial class MainWindow : Window
                 try
                 {
                     File.Delete(tarGzPath);
-                    //Console.WriteLine("Cleaned up partial download");
+                    LogToFile(logPath, "Cleaned up partial download");
                 }
-                catch { }
+                catch (Exception cleanupEx)
+                {
+                    LogToFile(logPath, $"Failed to clean up: {cleanupEx.Message}");
+                }
             }
 
             return false;
         }
     }
 
-    private void ExtractTarGz(string gzArchivePath, string destFolder)
+    private void ExtractTarGz(string gzArchivePath, string destFolder, string logPath)
     {
-        using (Stream inStream = File.OpenRead(gzArchivePath))
-        using (Stream gzipStream = new GZipInputStream(inStream))
-        using (TarArchive tarArchive = TarArchive.CreateInputTarArchive(gzipStream, System.Text.Encoding.UTF8))
+        try
         {
-            tarArchive.ExtractContents(destFolder);
+            LogToFile(logPath, $"ExtractTarGz called with archive: {gzArchivePath}");
+            LogToFile(logPath, $"Destination folder: {destFolder}");
+
+            using (Stream inStream = File.OpenRead(gzArchivePath))
+            {
+                LogToFile(logPath, "Opened gzip file stream");
+                using (Stream gzipStream = new GZipInputStream(inStream))
+                {
+                    LogToFile(logPath, "Created GZipInputStream");
+                    using (TarArchive tarArchive = TarArchive.CreateInputTarArchive(gzipStream, System.Text.Encoding.UTF8))
+                    {
+                        LogToFile(logPath, "Created TarArchive, starting extraction...");
+                        tarArchive.ExtractContents(destFolder);
+                        LogToFile(logPath, "TarArchive extraction completed");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            LogToFile(logPath, $"ERROR during extraction: {ex.GetType().Name}");
+            LogToFile(logPath, $"Extraction error message: {ex.Message}");
+            LogToFile(logPath, $"Extraction stack trace: {ex.StackTrace}");
+            throw; // Re-throw to be caught by outer handler
         }
     }
 
@@ -695,6 +768,128 @@ public partial class MainWindow : Window
                 mainGrid.Children.Remove(announcement);
             }, DispatcherPriority.Background);
         }
+    }
+
+    private void LogToFile(string logPath, string message)
+    {
+        try
+        {
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string logMessage = $"[{timestamp}] {message}\n";
+            File.AppendAllText(logPath, logMessage);
+        }
+        catch
+        {
+            // If logging fails, don't crash the app
+        }
+    }
+
+    private async Task ShowErrorDialog(string title, string message)
+    {
+        // Create a window to show error details
+        var errorWindow = new Window
+        {
+            Title = title,
+            Width = 600,
+            Height = 450,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            CanResize = true
+        };
+
+        var scrollViewer = new ScrollViewer
+        {
+            Padding = new Avalonia.Thickness(20),
+            HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
+            VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto
+        };
+
+        var stackPanel = new StackPanel
+        {
+            Spacing = 15
+        };
+
+        // Error message
+        var messageText = new TextBlock
+        {
+            Text = message,
+            TextWrapping = Avalonia.Media.TextWrapping.Wrap,
+            FontSize = 14
+        };
+
+        // Log file location
+        var logLocationText = new TextBlock
+        {
+            Text = $"\nLog file location:\n{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "download-error.log")}",
+            TextWrapping = Avalonia.Media.TextWrapping.Wrap,
+            FontSize = 12,
+            Foreground = Brushes.Gray,
+            Margin = new Avalonia.Thickness(0, 10, 0, 0)
+        };
+
+        // Buttons
+        var buttonPanel = new StackPanel
+        {
+            Orientation = Avalonia.Layout.Orientation.Horizontal,
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+            Spacing = 10,
+            Margin = new Avalonia.Thickness(0, 20, 0, 0)
+        };
+
+        var openLogButton = new Button
+        {
+            Content = "Open Log File",
+            Padding = new Avalonia.Thickness(15, 8)
+        };
+        openLogButton.Click += (s, e) =>
+        {
+            try
+            {
+                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "download-error.log");
+                if (File.Exists(logPath))
+                {
+                    // Open log file with default text editor
+                    if (OperatingSystem.IsWindows())
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = logPath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else if (OperatingSystem.IsMacOS())
+                    {
+                        System.Diagnostics.Process.Start("open", logPath);
+                    }
+                    else if (OperatingSystem.IsLinux())
+                    {
+                        System.Diagnostics.Process.Start("xdg-open", logPath);
+                    }
+                }
+            }
+            catch
+            {
+                // If opening fails, ignore
+            }
+        };
+
+        var okButton = new Button
+        {
+            Content = "OK",
+            Padding = new Avalonia.Thickness(15, 8)
+        };
+        okButton.Click += (s, e) => errorWindow.Close();
+
+        buttonPanel.Children.Add(openLogButton);
+        buttonPanel.Children.Add(okButton);
+
+        stackPanel.Children.Add(messageText);
+        stackPanel.Children.Add(logLocationText);
+        stackPanel.Children.Add(buttonPanel);
+
+        scrollViewer.Content = stackPanel;
+        errorWindow.Content = scrollViewer;
+
+        await errorWindow.ShowDialog(this);
     }
 
     protected override void OnClosing(WindowClosingEventArgs e)
