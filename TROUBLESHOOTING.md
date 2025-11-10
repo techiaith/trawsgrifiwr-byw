@@ -14,9 +14,10 @@ When a download error occurs:
    - Location of the log file
 
 2. **Log File Location**:
-   - **Windows**: `C:\Users\YourName\AppData\Local\Trawsgrifiwr-Byw\download-error.log`
-   - **macOS**: Next to the application in the same folder as the .app
-   - **Linux**: In the same directory as the executable
+   - **Windows**: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\download-error.log`
+     - Full path example: `C:\Users\YourName\AppData\Local\Trawsgrifiwr-Byw\download-error.log`
+   - **macOS**: `~/Library/Application Support/Trawsgrifiwr-Byw/download-error.log`
+   - **Linux**: `~/.local/share/Trawsgrifiwr-Byw/download-error.log`
 
    The exact path is shown in the error dialog.
 
@@ -69,8 +70,10 @@ When a download error occurs:
 
 **Solutions:**
 - Delete the partially downloaded file manually:
-  - Windows: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\Models\model_cy.tar.gz`
-  - macOS/Linux: `Models/model_cy.tar.gz` next to the app
+  - **Windows**: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\Models\model_cy.tar.gz`
+    - Type `%LOCALAPPDATA%` in File Explorer address bar to navigate there
+  - **macOS**: `~/Library/Application Support/Trawsgrifiwr-Byw/Models/model_cy.tar.gz`
+  - **Linux**: `~/.local/share/Trawsgrifiwr-Byw/Models/model_cy.tar.gz`
 - Restart the application to retry the download
 
 #### 6. Hugging Face Server Issues
@@ -93,10 +96,19 @@ If automatic download continues to fail, you can download the model manually:
 
 2. **Create the Models folder**:
    - **Windows**: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\Models`
-   - **macOS**: Next to Trawsgrifiwr-Byw.app, create a folder called `Models`
-   - **Linux**: In the same directory as the executable, create `Models`
+     - Open File Explorer, type `%LOCALAPPDATA%` in the address bar
+     - Create folders: `Trawsgrifiwr-Byw\Models`
+   - **macOS**: `~/Library/Application Support/Trawsgrifiwr-Byw/Models`
+   - **Linux**: `~/.local/share/Trawsgrifiwr-Byw/Models`
 
 3. **Extract the model**:
+
+   **Windows (using File Explorer):**
+   - Use 7-Zip or WinRAR to extract `model_cy.tar.gz`
+   - Rename the extracted `model` folder to `vosk-model-cy`
+   - Move to `%LOCALAPPDATA%\Trawsgrifiwr-Byw\Models\vosk-model-cy`
+
+   **macOS/Linux:**
    ```bash
    # Extract the tar.gz file
    tar -xzf model_cy.tar.gz
@@ -104,8 +116,11 @@ If automatic download continues to fail, you can download the model manually:
    # Rename the extracted folder
    mv model vosk-model-cy
 
-   # Move to Models directory
-   mv vosk-model-cy /path/to/Trawsgrifiwr-Byw/Models/
+   # Move to Models directory (macOS)
+   mv vosk-model-cy ~/Library/Application\ Support/Trawsgrifiwr-Byw/Models/
+
+   # OR for Linux
+   mv vosk-model-cy ~/.local/share/Trawsgrifiwr-Byw/Models/
    ```
 
 4. **Restart the application**
@@ -188,18 +203,19 @@ If you're still experiencing issues:
 
 **Windows:**
 - App location: `C:\Program Files\Trawsgrifiwr Byw\`
-- Models: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\Models\`
+- Models: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\Models\` (user-writable, no admin required)
+  - Example: `C:\Users\YourName\AppData\Local\Trawsgrifiwr-Byw\Models\`
 - Logs: `%LOCALAPPDATA%\Trawsgrifiwr-Byw\download-error.log`
 
 **macOS:**
 - App location: `/Applications/Trawsgrifiwr Byw.app`
-- Models: Next to the .app bundle in `Models/`
-- Logs: Next to the .app bundle in `download-error.log`
+- Models: `~/Library/Application Support/Trawsgrifiwr-Byw/Models/`
+- Logs: `~/Library/Application Support/Trawsgrifiwr-Byw/download-error.log`
 
 **Linux:**
 - App location: Where you extracted/installed it
-- Models: `./Models/` (same directory)
-- Logs: `./download-error.log` (same directory)
+- Models: `~/.local/share/Trawsgrifiwr-Byw/Models/`
+- Logs: `~/.local/share/Trawsgrifiwr-Byw/download-error.log`
 
 ### Model Information
 

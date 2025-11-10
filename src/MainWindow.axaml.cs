@@ -79,8 +79,9 @@ public partial class MainWindow : Window
                     StartButton.IsEnabled = false;
             });
 
-            // Look for model in Models subdirectory
-            string modelsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Models");
+            // Store models in user's AppData folder (writable without admin rights)
+            string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string modelsDir = Path.Combine(appDataDir, "Trawsgrifiwr-Byw", "Models");
             string modelPath = Path.Combine(modelsDir, "vosk-model-cy");
 
             //Console.WriteLine($"Looking for model at: {modelPath}");
@@ -144,7 +145,12 @@ public partial class MainWindow : Window
     {
         const string modelUrl = "https://huggingface.co/techiaith/kaldi-cy/resolve/main/model_cy.tar.gz";
         string tarGzPath = "";
-        string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "download-error.log");
+
+        // Store log in AppData (writable without admin rights)
+        string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string logDir = Path.Combine(appDataDir, "Trawsgrifiwr-Byw");
+        Directory.CreateDirectory(logDir);
+        string logPath = Path.Combine(logDir, "download-error.log");
 
         LogToFile(logPath, "Starting model download...");
         LogToFile(logPath, $"Download URL: {modelUrl}");
@@ -817,9 +823,12 @@ public partial class MainWindow : Window
         };
 
         // Log file location
+        string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string logPath = Path.Combine(appDataDir, "Trawsgrifiwr-Byw", "download-error.log");
+
         var logLocationText = new TextBlock
         {
-            Text = $"\nLog file location:\n{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "download-error.log")}",
+            Text = $"\nLog file location:\n{logPath}",
             TextWrapping = Avalonia.Media.TextWrapping.Wrap,
             FontSize = 12,
             Foreground = Brushes.Gray,
@@ -844,25 +853,26 @@ public partial class MainWindow : Window
         {
             try
             {
-                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "download-error.log");
-                if (File.Exists(logPath))
+                string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string logFile = Path.Combine(appData, "Trawsgrifiwr-Byw", "download-error.log");
+                if (File.Exists(logFile))
                 {
                     // Open log file with default text editor
                     if (OperatingSystem.IsWindows())
                     {
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
-                            FileName = logPath,
+                            FileName = logFile,
                             UseShellExecute = true
                         });
                     }
                     else if (OperatingSystem.IsMacOS())
                     {
-                        System.Diagnostics.Process.Start("open", logPath);
+                        System.Diagnostics.Process.Start("open", logFile);
                     }
                     else if (OperatingSystem.IsLinux())
                     {
-                        System.Diagnostics.Process.Start("xdg-open", logPath);
+                        System.Diagnostics.Process.Start("xdg-open", logFile);
                     }
                 }
             }

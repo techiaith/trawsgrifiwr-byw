@@ -13,7 +13,17 @@
              Description="Trawsgrifiwr Byw - Real-time Welsh Speech Recognition"
              Comments="Real-time Welsh speech recognition application using Vosk" />
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <!--
+      MajorUpgrade: Automatically remove older versions before installing new version
+      - AllowSameVersionUpgrades: Allow reinstalling same version
+      - Schedule: afterInstallInitialize removes old version first, then installs new
+      - DowngradeErrorMessage: Shown if user tries to install older version
+    -->
+    <MajorUpgrade
+      AllowSameVersionUpgrades="yes"
+      Schedule="afterInstallInitialize"
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed. Please uninstall the current version before installing this older version." />
+
     <MediaTemplate EmbedCab="yes" />
 
     <!-- Application Icon -->
