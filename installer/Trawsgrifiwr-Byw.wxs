@@ -35,10 +35,13 @@
     <UIRef Id="WixUI_InstallDir" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
 
-    <!-- Custom UI text for bilingual support -->
+    <!-- License file -->
     <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+
+    <!-- Optional: Uncomment when you have custom images
     <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+    -->
   </Product>
 
   <Fragment>
@@ -67,23 +70,8 @@
               Checksum="yes" />
       </Component>
 
-      <!-- All DLL files -->
-      <Component Id="DllFiles" Guid="C1D2E3F4-A5B6-7890-CDEF-AB1234567890">
-        <File Id="VoskDll" Source="..\dist\windows-x64\libvosk.dll" />
-        <File Id="VoskSharpDll" Source="..\dist\windows-x64\Vosk.dll" />
-      </Component>
-
-      <!-- Assets folder -->
-      <Component Id="AssetsFolder" Guid="D1E2F3A4-B5C6-7890-DEFA-BC1234567890">
-        <CreateFolder />
-        <RemoveFolder Id="RemoveAssetsFolder" On="uninstall" />
-        <RegistryValue Root="HKCU"
-                       Key="Software\Techiaith\TrawsgrifiWrByw"
-                       Name="AssetsInstalled"
-                       Type="integer"
-                       Value="1"
-                       KeyPath="yes" />
-      </Component>
+      <!-- Note: For production, use heat.exe to harvest all files automatically
+           For now, the single-file executable includes everything needed -->
     </ComponentGroup>
 
     <!-- Start Menu Shortcut -->
