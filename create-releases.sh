@@ -31,27 +31,27 @@ echo ""
 if [ -d "dist/macos-$MACOS_RID" ]; then
     echo "Packaging macOS ($MACOS_RID)..."
     cd dist/macos-$MACOS_RID
-    zip -r "../../$RELEASE_DIR/VoskWelshSpeechRecognition-macOS-$MACOS_RID-v$VERSION.zip" .
+    zip -r "../../$RELEASE_DIR/Trawsgrifiwr-Byw-macOS-$MACOS_RID-v$VERSION.zip" .
     cd ../..
-    echo "  ✓ Created: $RELEASE_DIR/VoskWelshSpeechRecognition-macOS-$MACOS_RID-v$VERSION.zip"
+    echo "  ✓ Created: $RELEASE_DIR/Trawsgrifiwr-Byw-macOS-$MACOS_RID-v$VERSION.zip"
 fi
 
 # Windows
 if [ -d "dist/windows-x64" ]; then
     echo "Packaging Windows..."
     cd dist/windows-x64
-    zip -r "../../$RELEASE_DIR/VoskWelshSpeechRecognition-Windows-x64-v$VERSION.zip" .
+    zip -r "../../$RELEASE_DIR/Trawsgrifiwr-Byw-Windows-x64-v$VERSION.zip" .
     cd ../..
-    echo "  ✓ Created: $RELEASE_DIR/VoskWelshSpeechRecognition-Windows-x64-v$VERSION.zip"
+    echo "  ✓ Created: $RELEASE_DIR/Trawsgrifiwr-Byw-Windows-x64-v$VERSION.zip"
 fi
 
 # Linux
 if [ -d "dist/linux-x64" ]; then
     echo "Packaging Linux..."
     cd dist/linux-x64
-    tar -czf "../../$RELEASE_DIR/VoskWelshSpeechRecognition-Linux-x64-v$VERSION.tar.gz" .
+    tar -czf "../../$RELEASE_DIR/Trawsgrifiwr-Byw-Linux-x64-v$VERSION.tar.gz" .
     cd ../..
-    echo "  ✓ Created: $RELEASE_DIR/VoskWelshSpeechRecognition-Linux-x64-v$VERSION.tar.gz"
+    echo "  ✓ Created: $RELEASE_DIR/Trawsgrifiwr-Byw-Linux-x64-v$VERSION.tar.gz"
 fi
 
 echo ""
