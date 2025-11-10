@@ -65,6 +65,14 @@ public partial class MainWindow : Window
                 ClearButton_Click(sender, new RoutedEventArgs());
                 e.Handled = true;
                 break;
+            case Key.F8:
+                CopyWithTimestampsButton_Click(sender, new RoutedEventArgs());
+                e.Handled = true;
+                break;
+            case Key.F9:
+                CopyWithoutTimestampsButton_Click(sender, new RoutedEventArgs());
+                e.Handled = true;
+                break;
         }
     }
 
@@ -402,6 +410,126 @@ public partial class MainWindow : Window
             TranscriptionsText.Text = "Completed sentences will appear here... / Bydd brawddegau cyflawn yn ymddangos yma...";
 
         AnnounceToScreenReader("All transcriptions cleared.", isAssertive: true);
+    }
+
+    private async void CopyWithTimestampsButton_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (TranscriptionsText != null)
+            {
+                string text = TranscriptionsText.Text;
+
+                // Check if there's actual content (not the placeholder text)
+                if (!text.Contains("Completed sentences will appear here"))
+                {
+                    var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+                    if (clipboard != null)
+                    {
+                        await clipboard.SetTextAsync(text);
+                        AnnounceToScreenReader("Transcriptions with timestamps copied to clipboard.", isAssertive: true);
+
+                        // Visual feedback
+                        UpdateStatus("Copied to clipboard with timestamps / Wedi copïo i'r clipfwrdd gydag amseroedd", Brushes.Green);
+
+                        // Reset status after 2 seconds
+                        await Task.Delay(2000);
+                        if (!_isRecording)
+                        {
+                            UpdateStatus("Barod i recordio - Ready to record", Brushes.Green);
+                        }
+                    }
+                }
+                else
+                {
+                    AnnounceToScreenReader("No transcriptions to copy.", isAssertive: true);
+                    UpdateStatus("No transcriptions to copy / Dim trawsgrifiadau i'w copïo", Brushes.Orange);
+
+                    await Task.Delay(2000);
+                    if (!_isRecording)
+                    {
+                        UpdateStatus("Barod i recordio - Ready to record", Brushes.Green);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            AnnounceToScreenReader($"Error copying to clipboard: {ex.Message}", isAssertive: true);
+            UpdateStatus($"Error copying to clipboard: {ex.Message}", Brushes.Red);
+        }
+    }
+
+    private async void CopyWithoutTimestampsButton_Click(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (TranscriptionsText != null)
+            {
+                string text = TranscriptionsText.Text;
+
+                // Check if there's actual content (not the placeholder text)
+                if (!text.Contains("Completed sentences will appear here"))
+                {
+                    // Remove timestamps from each line
+                    var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    var textOnly = new System.Text.StringBuilder();
+
+                    foreach (var line in lines)
+                    {
+                        // Remove timestamp pattern [HH:mm:ss] from the beginning
+                        var match = System.Text.RegularExpressions.Regex.Match(line, @"^\[\d{2}:\d{2}:\d{2}\]\s*(.*)$");
+                        if (match.Success)
+                        {
+                            // Add the text without timestamp
+                            if (textOnly.Length > 0)
+                                textOnly.Append(' '); // Add space between segments
+                            textOnly.Append(match.Groups[1].Value.Trim());
+                        }
+                        else
+                        {
+                            // If no timestamp pattern found, add the line as is
+                            if (textOnly.Length > 0)
+                                textOnly.Append(' ');
+                            textOnly.Append(line.Trim());
+                        }
+                    }
+
+                    var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+                    if (clipboard != null)
+                    {
+                        await clipboard.SetTextAsync(textOnly.ToString());
+                        AnnounceToScreenReader("Transcriptions without timestamps copied to clipboard as continuous text.", isAssertive: true);
+
+                        // Visual feedback
+                        UpdateStatus("Copied to clipboard without timestamps / Wedi copïo i'r clipfwrdd heb amseroedd", Brushes.Green);
+
+                        // Reset status after 2 seconds
+                        await Task.Delay(2000);
+                        if (!_isRecording)
+                        {
+                            UpdateStatus("Barod i recordio - Ready to record", Brushes.Green);
+                        }
+                    }
+                }
+                else
+                {
+                    AnnounceToScreenReader("No transcriptions to copy.", isAssertive: true);
+                    UpdateStatus("No transcriptions to copy / Dim trawsgrifiadau i'w copïo", Brushes.Orange);
+
+                    await Task.Delay(2000);
+                    if (!_isRecording)
+                    {
+                        UpdateStatus("Barod i recordio - Ready to record", Brushes.Green);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            AnnounceToScreenReader($"Error copying to clipboard: {ex.Message}", isAssertive: true);
+            UpdateStatus($"Error copying to clipboard: {ex.Message}", Brushes.Red);
+        }
     }
 
     private void StartRecording()
