@@ -11,6 +11,8 @@ Rhaglen bwrdd gwaith trawsplatfform (Windows, Mac a Linux) ar gyfer adnabod llef
 ![Llwyfan](https://img.shields.io/badge/llwyfan-macOS%20%7C%20Windows%20%7C%20Linux-blue)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple)
 
+Mae'r Trawsgrifiwr Byw angen 'OpenAL' wedi ei osod hefyd os am ei ddefnyddio ar beiriant Windows [OpenAL 1.1 Windows Installer](https://www.openal.org/downloads/oalinst.zip)
+
 ### ✨ Nodweddion
 
 - 🎤 **Adnabod Lleferydd Amser Real** - Gweld trawsgrifiadau wrth i chi siarad
@@ -72,6 +74,8 @@ trawsgrifiwr-byw/
 - [OpenTK.OpenAL](https://opentk.net/) - Dal sain trawsplatfform
 - [Modelau Cymraeg Kaldi](https://huggingface.co/techiaith/kaldi-cy) - gan Gweltaz Duval-Gwennoc, Preben Vanberg, Sasha Wanasky a techiaith Prifysgol Bangor
 
+Mae'r Trawsgrifiwr Byw angen 'OpenAL' wedi ei osod hefyd os am ei ddefnyddio ar beiriant Windows [OpenAL 1.1 Windows Installer](https://www.openal.org/downloads/oalinst.zip)
+
 ### 🔗 Adnoddau
 
 #### Modelau Iaith Gymraeg
@@ -123,6 +127,8 @@ A cross-platform desktop application for real-time Welsh speech recognition usin
 
 ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple)
+
+The Trawsgrifiwr Byw also needs 'OpenAL' installed if it is to be used on a Windows machine [OpenAL 1.1 Windows Installer](https://www.openal.org/downloads/oalinst.zip)
 
 ### ✨ Features
 
@@ -191,6 +197,7 @@ trawsgrifiwr-byw/
 - [OpenTK.OpenAL](https://opentk.net/) - Cross-platform audio capture
 - [Kaldi Welsh Models](https://huggingface.co/techiaith/kaldi-cy) - by Gweltaz Duval-Gwennoc, Preben Vanberg, Sasha Wanasky and techiaith Bangor University
 
+The Trawsgrifiwr Byw also needs 'OpenAL' installed if it is to be used on a Windows machine [OpenAL 1.1 Windows Installer](https://www.openal.org/downloads/oalinst.zip)
 
 ### 🔗 Resources
 
