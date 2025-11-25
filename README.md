@@ -13,6 +13,31 @@ Rhaglen bwrdd gwaith trawsplatfform (Windows, Mac a Linux) ar gyfer adnabod llef
 
 Mae'r Trawsgrifiwr Byw angen 'OpenAL' wedi ei osod hefyd os am ei ddefnyddio ar beiriant Windows [OpenAL 1.1 Windows Installer](https://www.openal.org/downloads/oalinst.zip)
 
+### 📥 Ar gyfer Defnyddwyr
+
+#### Gosod
+
+**Lawrlwythwch y rhyddhad diweddaraf o [GitHub Releases](https://github.com/techiaith/trawsgrifiwr-byw/releases)**
+
+##### macOS
+- Lawrlwythwch `Trawsgrifiwr-Byw-macOS-*.pkg` (hawsaf - pecyn gosodwr)
+- Neu lawrlwythwch `Trawsgrifiwr-Byw-macOS-*.zip` (gosodiad â llaw)
+
+**Pwysig:** Bydd macOS yn dangos rhybudd diogelwch ar gyfer rhaglenni heb eu llofnodi. I osod:
+1. **Clic-dde** (neu Ctrl+clic) ar y ffeil `.pkg` a dewis **"Agor"**
+2. Cliciwch **"Agor"** yn y ddeialog diogelwch
+3. Neu rhedeg yn y Terfynell: `sudo installer -pkg /llwybr/i/ffeil.pkg -target /`
+
+##### Windows
+- Lawrlwythwch a rhedeg `Trawsgrifiwr-Byw-v*.msi` (gosodwr)
+- Neu lawrlwythwch a datgywasgu `Trawsgrifiwr-Byw-Windows-x64-*.zip`
+- **Pwysig:** Rhaid gosod [OpenAL 1.1](https://www.openal.org/downloads/oalinst.zip) yn gyntaf
+
+##### Linux
+- Lawrlwythwch a datgywasgu `Trawsgrifiwr-Byw-Linux-x64-*.tar.gz`
+- Gwnewch yn weithredadwy: `chmod +x Trawsgrifiwr-Byw`
+- Rhedeg: `./Trawsgrifiwr-Byw`
+
 ### ✨ Nodweddion
 
 - 🎤 **Adnabod Lleferydd Amser Real** - Gweld trawsgrifiadau wrth i chi siarad
@@ -141,7 +166,30 @@ The Trawsgrifiwr Byw also needs 'OpenAL' installed if it is to be used on a Wind
 
 ### 📥 For End Users
 
-See **[USER_README.md](USER_README.md)** for download links and installation instructions.
+#### Installation
+
+**Download the latest release from [GitHub Releases](https://github.com/techiaith/trawsgrifiwr-byw/releases)**
+
+##### macOS
+- Download `Trawsgrifiwr-Byw-macOS-*.pkg` (easiest - installer package)
+- Or download `Trawsgrifiwr-Byw-macOS-*.zip` (manual installation)
+
+**Important:** macOS will show a security warning for unsigned applications. To install:
+1. **Right-click** (or Ctrl+click) the `.pkg` file and select **"Open"**
+2. Click **"Open"** in the security dialog
+3. Or run in Terminal: `sudo installer -pkg /path/to/file.pkg -target /`
+
+##### Windows
+- Download and run `Trawsgrifiwr-Byw-v*.msi` (installer)
+- Or download and extract `Trawsgrifiwr-Byw-Windows-x64-*.zip`
+- **Important:** You must install [OpenAL 1.1](https://www.openal.org/downloads/oalinst.zip) first
+
+##### Linux
+- Download and extract `Trawsgrifiwr-Byw-Linux-x64-*.tar.gz`
+- Make executable: `chmod +x Trawsgrifiwr-Byw`
+- Run: `./Trawsgrifiwr-Byw`
+
+See **[USER_README.md](USER_README.md)** for detailed installation instructions.
 
 ### 🚀 For Developers
 

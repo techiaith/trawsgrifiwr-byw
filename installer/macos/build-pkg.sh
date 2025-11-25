@@ -53,6 +53,14 @@ mkdir -p "$PKG_OUTPUT"
 echo "Copying application bundle..."
 cp -R "$APP_BUNDLE" "$PKG_ROOT/Applications/"
 
+# Ad-hoc sign the app bundle (helps reduce Gatekeeper warnings)
+echo "Signing application bundle..."
+if codesign --force --deep --sign - "$PKG_ROOT/Applications/$APP_NAME.app" 2>/dev/null; then
+    echo "  ✓ Application signed with ad-hoc signature"
+else
+    echo "  ⚠ Could not sign application"
+fi
+
 # Make scripts executable
 echo "Setting up installation scripts..."
 chmod +x scripts/postinstall

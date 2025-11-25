@@ -105,6 +105,16 @@ cat > "$CONTENTS_DIR/Info.plist" << 'EOF'
 EOF
 
 echo "  ✓ Created application bundle: $APP_NAME.app"
+
+# Ad-hoc code signing (helps with Gatekeeper warnings)
+echo ""
+echo "Signing application bundle..."
+if codesign --force --deep --sign - "$APP_BUNDLE" 2>/dev/null; then
+    echo "  ✓ Application signed with ad-hoc signature"
+else
+    echo "  ⚠ Could not sign application (codesign not available or failed)"
+fi
+
 echo ""
 echo "Output location: $OUTPUT_DIR"
 echo "Application bundle: $APP_BUNDLE"
