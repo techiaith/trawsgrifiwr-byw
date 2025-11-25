@@ -1,0 +1,16 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Shell scripts should always use LF
+*.sh text eol=lf
+
+# Windows batch files should use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Ensure these specific files always have LF endings
+build-macos.sh text eol=lf
+build-linux.sh text eol=lf
+build-windows.sh text eol=lf
+installer/macos/build-pkg.sh text eol=lf
+installer/macos/scripts/* text eol=lf
