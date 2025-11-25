@@ -55,18 +55,25 @@ jobs:
           # Create output directory
           mkdir -p dist/installer
 
+          # Get version from tag (remove 'v' prefix if present)
+          VERSION="${{ github.ref_name || '1.0.0' }}"
+          VERSION="${VERSION#v}"
+
           # Build the installer using WiX 3.11
           cd installer
           candle.exe Trawsgrifiwr-Byw.wxs -arch x64 -out ../dist/installer/Trawsgrifiwr-Byw.wixobj
-          light.exe ../dist/installer/Trawsgrifiwr-Byw.wixobj -ext WixUIExtension -out ../dist/installer/Trawsgrifiwr-Byw-v1.0.0.msi -cultures:en-us
+          light.exe ../dist/installer/Trawsgrifiwr-Byw.wixobj -ext WixUIExtension -out ../dist/installer/Trawsgrifiwr-Byw-v${VERSION}.msi -cultures:en-us
           cd ..
 
       - name: Create Windows ZIP Archive
         shell: bash
         run: |
           mkdir -p releases
+          # Get version from tag (remove 'v' prefix if present)
+          VERSION="${{ github.ref_name || '1.0.0' }}"
+          VERSION="${VERSION#v}"
           cd dist/windows-x64
-          7z a ../../releases/Trawsgrifiwr-Byw-Windows-x64-v${{ github.ref_name || '1.0.0' }}.zip *
+          7z a ../../releases/Trawsgrifiwr-Byw-Windows-x64-v${VERSION}.zip *
           cd ../..
 
       - name: Upload Windows Build
@@ -99,9 +106,22 @@ jobs:
           chmod +x build-macos.sh
           ./build-macos.sh
 
+      - name: Build macOS Installer Package
+        run: |
+          cd installer/macos
+          chmod +x build-pkg.sh
+          VERSION=${{ github.ref_name || '1.0.0' }}
+          # Remove 'v' prefix if present
+          VERSION=${VERSION#v}
+          ./build-pkg.sh $VERSION
+          cd ../..
+
       - name: Create macOS Archive
         run: |
           mkdir -p releases
+          # Get version from tag (remove 'v' prefix if present)
+          VERSION="${{ github.ref_name || '1.0.0' }}"
+          VERSION="${VERSION#v}"
           ARCH=$(uname -m)
           if [ "$ARCH" = "arm64" ]; then
             RID="osx-arm64"
@@ -109,7 +129,7 @@ jobs:
             RID="osx-x64"
           fi
           cd dist/macos-$RID
-          zip -r ../../releases/Trawsgrifiwr-Byw-macOS-$RID-v${{ github.ref_name || '1.0.0' }}.zip .
+          zip -r ../../releases/Trawsgrifiwr-Byw-macOS-$RID-v${VERSION}.zip .
           cd ../..
 
       - name: Upload macOS Build
@@ -117,6 +137,12 @@ jobs:
         with:
           name: macos-build
           path: releases/Trawsgrifiwr-Byw-macOS-*.zip
+
+      - name: Upload macOS Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-installer
+          path: dist/installer/*.pkg
 
   build-linux:
     name: Build Linux (x64)
@@ -139,8 +165,11 @@ jobs:
       - name: Create Linux Archive
         run: |
           mkdir -p releases
+          # Get version from tag (remove 'v' prefix if present)
+          VERSION="${{ github.ref_name || '1.0.0' }}"
+          VERSION="${VERSION#v}"
           cd dist/linux-x64
-          tar -czf ../../releases/Trawsgrifiwr-Byw-Linux-x64-v${{ github.ref_name || '1.0.0' }}.tar.gz .
+          tar -czf ../../releases/Trawsgrifiwr-Byw-Linux-x64-v${VERSION}.tar.gz .
           cd ../..
 
       - name: Upload Linux Build
@@ -175,6 +204,7 @@ jobs:
             artifacts/windows-x64/*.zip
             artifacts/windows-msi-installer/*.msi
             artifacts/macos-build/*.zip
+            artifacts/macos-installer/*.pkg
             artifacts/linux-x64/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

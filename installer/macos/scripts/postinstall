@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Post-installation script for Trawsgrifiwr Byw
+# This script runs after files are installed
+
+# Make the executable actually executable
+chmod +x "/Applications/Trawsgrifiwr Byw.app/Contents/MacOS/Trawsgrifiwr-Byw"
+
+# Remove quarantine attribute (allows app to run without "unidentified developer" warning on first run)
+# This only works if the installer itself is signed, but doesn't hurt to try
+xattr -dr com.apple.quarantine "/Applications/Trawsgrifiwr Byw.app" 2>/dev/null || true
+
+echo "Installation complete!"
+exit 0
