@@ -6,6 +6,14 @@
 
 ## Cymraeg
 
+> [!NOTE]
+> **Fersiwn newydd ar y gweill**
+>
+> Rydym wrthi'n paratoi [diweddariad sylweddol](https://techiaith.cymru/2026/10/29/syth-bin-straight-bin-pam-fod-cymraeg-llafar-yn-drech-nar-peiriant/index.html) i'r Trawsgrifiwr Byw, a rhyddhad newydd i gyd-fynd ag ef. Bydd y ffeiliau gweithredadwy a'r rhaglenni gosod nesaf ar gyfer Windows a MacOS wedi'u llofnodi'n ddigidol, fel y gallwch fod yn sicr eu bod yn dod gennym ni, Uned Technolegau Iaith Prifysgol Bangor, a heb eu newid gan neb arall. Unwaith bydd y gwaith hwn wedi'i gwblhau, byddwn yn cyhoeddi'r cod diweddaraf yma ar yr un pryd â'r rhaglenni gosod newydd.
+>
+> Os hoffech gael copi o'r fersiwn newydd ymlaen llaw ar gyfer profi mewnol yn eich sefydliad, cysylltwch â ni: [techiaith@bangor.ac.uk](mailto:techiaith@bangor.ac.uk).
+
+
 Rhaglen bwrdd gwaith trawsplatfform (Windows, Mac a Linux) ar gyfer adnabod lleferydd Cymraeg byw gan ddefnyddio model Vosk.
 
 ![Llwyfan](https://img.shields.io/badge/llwyfan-macOS%20%7C%20Windows%20%7C%20Linux-blue)
@@ -145,6 +153,15 @@ Croeso i chi gysylltu drwy ein hysbysu am gwallau ac/neu i gynnig gwelliannau.
 <a name="english"></a>
 
 ## English
+
+> [!NOTE]
+> **A new version is on its way**
+>
+> We are preparing a [significant update](https://techiaith.cymru/2026/10/29/syth-bin-straight-bin-why-spoken-welsh-has-the-edge-over-the-machine/index.html) to Trawsgrifiwr Byw, with a new release to accompany it. The binaries and installers for the next release of Windows and MacOS will be digitally signed, so that you can be sure they come from us, the Language Technologies Unit at Bangor University, and have not been altered by anyone else. Once this work is complete, we will publish the latest code here at the same time as the new release.
+>
+> If you would like an early copy of the new version for internal testing within your organisation, please contact us at [techiaith@bangor.ac.uk](mailto:techiaith@bangor.ac.uk).
+
+
 
 **[Back to Welsh / Yn ôl i'r Gymraeg](#-cymraeg)**
 
